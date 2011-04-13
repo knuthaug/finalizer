@@ -17,8 +17,8 @@ end
 
 gem "ci_reporter"
 gem "activesupport", "3.0.5"
-gem "bson_ext"
-gem "mongoid", "2.0.0.rc.7"
+gem "bson_ext", "~> 1.2"
+gem "mongoid", "~> 2.0"
 gem "rails3-generators"
 gem "devise", "1.1.5"
 gem "haml", ">= 3.0.0"
