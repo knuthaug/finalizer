@@ -19,8 +19,31 @@ fs.exists(file, function(exists) {
 });
 
 function processYear(year) {
-    console.log(sortArray(year)
-);
+    var months = {
+        "01": { "in": 0, "out": 0}, "02": { "in": 0, "out": 0}, 
+        "03": { "in": 0, "out": 0}, "04": { "in": 0, "out": 0}, 
+        "05": { "in": 0, "out": 0}, "06": { "in": 0, "out": 0}, 
+        "07": { "in": 0, "out": 0}, "08": { "in": 0, "out": 0}, 
+        "09": { "in": 0, "out": 0}, "10": { "in": 0, "out": 0}, 
+        "11": { "in": 0, "out": 0}, "12": { "in": 0, "out": 0}
+    };
+    
+    year.each(function(element) {
+        months = sumMonths(months, element);
+    });
+
+    console.log(months);
+
+    //console.log(sortArray(year);
+
+}
+
+function sumMonths(months, object) {
+    var month = object.date.substr(4,2);
+    //console.log(months)
+    months[month].in += object.in;
+    months[month].out += object.out;
+    return months;
 }
 
 function sortArray(array) {
@@ -37,10 +60,20 @@ function compare(a, b) {
 
 function parseLine(line) {
     var parts = line.split('\t');
-    if(parts[0].indexOf("\.") > -1) {
+
+    if(parts[0].indexOf(".") > -1) {
         var dateParts = parts[0].split(".");
         parts[0] = dateParts[2] + dateParts[1] + dateParts[0];
     }
+
+    if(parts[2] && parts[2].indexOf(",") > -1) {
+        parts[2] = Number.parseFloat(parts[2].replace(",", "."));
+    }
+
+    if(parts[3] && parts[3].indexOf(",") > -1) {
+        parts[3] = Number.parseFloat(parts[3].replace(",", "."));
+    }
+
     return {"date": parts[0], 
             "description": parts[1], 
             "out": parts[2],
@@ -49,3 +82,4 @@ function parseLine(line) {
 
 module.exports.parseLine = parseLine;
 module.exports.sortArray = sortArray;
+module.exports.sumMonths = sumMonths;
