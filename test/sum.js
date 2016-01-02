@@ -33,7 +33,7 @@ describe("the sum script", function(){
             assert.equal(foo.date, "test");
             assert.equal(foo.description, "1");
             assert.equal(foo.out, 2.0);
-            assert.equal(foo.in, undefined);
+            assert.equal(foo.in, 0);
             done();
         });
 

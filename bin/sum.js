@@ -28,7 +28,7 @@ function processYear(year) {
         "11": { "in": 0, "out": 0}, "12": { "in": 0, "out": 0}
     };
     
-    year.each(function(element) {
+    year.forEach(function(element) {
         months = sumMonths(months, element);
     });
 
@@ -40,7 +40,7 @@ function processYear(year) {
 
 function sumMonths(months, object) {
     var month = object.date.substr(4,2);
-    //console.log(months)
+    //console.log(object)
     months[month].in += object.in;
     months[month].out += object.out;
     return months;
@@ -66,14 +66,17 @@ function parseLine(line) {
         parts[0] = dateParts[2] + dateParts[1] + dateParts[0];
     }
 
-    if(parts[2] && parts[2].indexOf(",") > -1) {
+    if(parts[2]) {
         parts[2] = Number.parseFloat(parts[2].replace(",", "."));
+    } else {
+        parts[2] = 0;
     }
 
-    if(parts[3] && parts[3].indexOf(",") > -1) {
+    if(parts[3]) {
         parts[3] = Number.parseFloat(parts[3].replace(",", "."));
+    } else {
+        parts[3] = 0;
     }
-
     return {"date": parts[0], 
             "description": parts[1], 
             "out": parts[2],
