@@ -7,17 +7,25 @@
   "scripts": {
       "start": "NODE_ENV=production node ./bin/server.js | ./node_modules/bunyan/bin/bunyan -o short",
       "dev-start": "gulp",
-      "test": "mocha ./test/**/*.js ./test/*.js ./maelstrom-templates/test/node/*.js --reporter spec"
+      "test": "mocha ./test/*.js --reporter spec",
+      "import": "bin/import.js",
+      "summarize": "bin/sum.js"
   },
   "repository": {
       "type": "git",
       "url": "https://github.com/knuthaug/finalizer"
+  },
+  "devDependencies": {
+      "chai": "latest",
+      "mocha": "latest",
+      "should": "latest"
   },
   "dependencies": {
       "bluebird": "^2.9.30",
       "express": "^4.12.2",
       "handlebars": "^3.0.0",
       "bunyan": "1.5.1",
-      "mongoose": "4.0.5"
+      "mongoose": "4.0.5",
+      "line-reader": "0.3.0"
   }
 }
