@@ -101,14 +101,18 @@ describe("the sum script", function(){
             var array = [
                 {"date": "20140110", "in": 0, "out": 120, "description": "Rema"},
                 {"date": "20140101", "in": 0, "out": 400, "description": "ESSO SKÅRER"},
+                {"date": "20140101", "in": 0, "out": 400, "description": "shell SKÅRER"},
                 {"date": "20140120", "in": 0, "out": 320, "description": "LØRENSKOG KINO"},
                 {"date": "20140101", "in": 0, "out": 500, "description": "AB klipp"},
             ];
             
-            var categories = {"Matvarer": [/Rema/i], "Underholdning": [/kino/i], "Transport": [/esso|shell/i]};
+            var categories = {"Matvarer": [/foo/i, /Rema/i], "Underholdning": [/kino/i], "Transport": [/esso|shell/i]};
             
             var sums = sum.categorySumsYearly(array, categories);
-            assert.deepEqual(sums, { "Matvarer": 120, "Underholdning": 320, "Annet": 500, "Transport": 400});
+            assert.deepEqual(sums, { "Matvarer": {"value": 120, "percentage": 6.9}, 
+                                     "Underholdning": { "value": 320, "percentage": 18.39}, 
+                                     "Annet": {"value": 500, "percentage": 28.74}, 
+                                     "Transport": {"value": 800, "percentage": 45.98}});
             done();
         });
     });
