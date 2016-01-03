@@ -46,6 +46,28 @@ function sumMonths(months, object) {
     return months;
 }
 
+function categorySumsYearly(entries, categories) {
+    var sums = {};
+    entries.forEach(function(entry) {
+        var category = findCategory(entry, categories);
+        if(!sums[category]) {
+            sums[category] = 0.0;
+        }
+        sums[category] += entry.out;
+    });
+    return sums;
+}
+
+function findCategory(entry, categories) {
+    var match = Object.keys(categories).filter(function(category){
+        return categories[category].find(function(regex){
+            return entry.description.match(regex);
+        });
+    });
+
+    return match[0] ? match[0] : "Annet";
+}
+
 function sortArray(array) {
     return array.sort(compare);
 }
@@ -86,3 +108,4 @@ function parseLine(line) {
 module.exports.parseLine = parseLine;
 module.exports.sortArray = sortArray;
 module.exports.sumMonths = sumMonths;
+module.exports.categorySumsYearly = categorySumsYearly;

@@ -95,4 +95,21 @@ describe("the sum script", function(){
             done();
         });
     });
+
+    describe('categorySumsYearly', function(){
+        it('should sum values by category', function(done){
+            var array = [
+                {"date": "20140110", "in": 0, "out": 120, "description": "Rema"},
+                {"date": "20140101", "in": 0, "out": 400, "description": "ESSO SKÅRER"},
+                {"date": "20140120", "in": 0, "out": 320, "description": "LØRENSKOG KINO"},
+                {"date": "20140101", "in": 0, "out": 500, "description": "AB klipp"},
+            ];
+            
+            var categories = {"Matvarer": [/Rema/i], "Underholdning": [/kino/i], "Transport": [/esso|shell/i]};
+            
+            var sums = sum.categorySumsYearly(array, categories);
+            assert.deepEqual(sums, { "Matvarer": 120, "Underholdning": 320, "Annet": 500, "Transport": 400});
+            done();
+        });
+    });
 });
