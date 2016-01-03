@@ -1,7 +1,6 @@
+"use strict";
 
-var fs = require('fs'),
-    lines = require('line-reader'),
-    year = [], 
+var parser = require('../lib/parser.js'),
     file = process.argv[2], 
     categories = {"Matvarer": [/gulating|isbilen|prix|Rema|meny|coop|kiwi|bunnpris|rimi|joker|ica|spar|vinmonopolet|maximat|gottebiten|euro cash/i], 
                   "Underholdning/kultur": [/nordisk film|nasjonalgall|donald duck|leos leke|fetsund lenser|kino|norli|ark|svensk film|tanum|museu|norsk tekni|vitensenter|NRK lisens|boklageret|kino|forskerfabrikken|tusenfryd|saga|liseberg|akvarium/i], 
@@ -25,18 +24,8 @@ var fs = require('fs'),
                   "Transport": [/randsfjord dekk|landbill|fjord1|bilettsalg|billettsalg|bilettbod|norled|M\/?F|MS tidebris|birger n haug|biltema|torshov bil|esso|shell|bilrekv|fjellinjen|nsb|ruter|statoil|garasjen|yx|vianor|tollregion oslo|bilpleie/i]};
 
 
-fs.exists(file, function(exists) {
-    lines.eachLine(file, function(line, last) {
-        var entry = parseLine(line);
-        if(entry.date !== "Dato") {
-            year.push(entry)
-        }
+parser.parseFile(file, processYear);
 
-        if(last) {
-            processYear(year);
-        }
-    });
-});
 
 function processYear(year) {
     var months = {
@@ -113,31 +102,6 @@ function compare(a, b) {
   return 0;
 }
 
-function parseLine(line) {
-    var parts = line.split('\t');
-
-    if(parts[0].indexOf(".") > -1) {
-        var dateParts = parts[0].split(".");
-        parts[0] = dateParts[2] + dateParts[1] + dateParts[0];
-    }
-
-    if(parts[2]) {
-        parts[2] = Number.parseFloat(parts[2].replace(",", "."));
-    } else {
-        parts[2] = 0;
-    }
-
-    if(parts[3]) {
-        parts[3] = Number.parseFloat(parts[3].replace(",", "."));
-    } else {
-        parts[3] = 0;
-    }
-    return {"date": parts[0], 
-            "description": parts[1], 
-            "out": parts[2],
-            "in": parts[3]}
-}
-
 
 function round10(value, exp) {
     return decimalAdjust('round', value, exp);
@@ -163,7 +127,6 @@ function decimalAdjust(type, value, exp) {
 }
 
 
-module.exports.parseLine = parseLine;
 module.exports.sortArray = sortArray;
 module.exports.sumMonths = sumMonths;
 module.exports.categorySumsYearly = categorySumsYearly;
