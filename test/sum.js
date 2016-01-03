@@ -73,4 +73,28 @@ describe("the sum script", function(){
             done();
         });
     });
+
+    describe('categorySumsMonthly', function(){
+        it('should sum values by category', function(done){
+            var array = [
+                {"date": "20140110", "in": 0, "out": 120, "description": "Rema"},
+                {"date": "20140101", "in": 0, "out": 400, "description": "ESSO SKÅRER"},
+                {"date": "20140201", "in": 0, "out": 400, "description": "ESSO SKÅRER"},
+                {"date": "20140101", "in": 0, "out": 400, "description": "shell SKÅRER"},
+                {"date": "20140120", "in": 0, "out": 320, "description": "LØRENSKOG KINO"},
+                {"date": "20140101", "in": 0, "out": 500, "description": "AB klipp"},
+            ];
+            
+            var categories = {"Matvarer": [/foo/i, /Rema/i], "Underholdning": [/kino/i], "Transport": [/esso|shell/i]};
+            
+            var sums = sum.categorySumsMonthly(array, categories);
+            assert.deepEqual(sums, { "01" : { "Matvarer": {"value": 120, "percentage": 6.9}, 
+                                              "Underholdning": { "value": 320, "percentage": 18.39}, 
+                                              "Annet": {"value": 500, "percentage": 28.74}, 
+                                              "Transport": {"value": 800, "percentage": 45.98}}, 
+                                     "02": { "Transport": {"value": 400, "percentage": 100}}});
+            done();
+        });
+    });
+
 });

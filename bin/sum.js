@@ -64,6 +64,40 @@ function sumMonths(months, object) {
     return months;
 }
 
+function categorySumsMonthly(entries, categories) {
+    var sums = {},
+        monthTotals = {};
+    
+    entries.forEach(function(entry) {
+        var month = entry.date.substr(4,2);
+        var category = findCategory(entry, categories);
+        
+        if (!monthTotals[month]) {
+            monthTotals[month] = 0;
+        }
+
+        if(!sums[month]) {
+            sums[month] = {};
+        }
+        
+        if(!sums[month][category]) {
+            sums[month][category] = { value: 0};
+        }
+        sums[month][category].value += entry.out;
+        monthTotals[month] += entry.out;
+    });
+    
+    //calculate percentages
+    Object.keys(sums).forEach(function(month){
+        Object.keys(sums[month]).forEach(function(category) {
+            sums[month][category].percentage = round10(sums[month][category].value 
+                                                       / monthTotals[month] * 100, -2);
+        });
+    });
+
+    return sums;
+}
+
 function categorySumsYearly(entries, categories) {
     var sums = {},
         yearTotal = 0;
@@ -96,7 +130,8 @@ function findCategory(entry, categories) {
     if(match[0]) {
         return match[0];
     }
-    console.log("unmatched entry: " + entry.description);
+    
+    //console.log("unmatched entry: " + entry.description);
     return "Annet";
 }
 
@@ -140,3 +175,4 @@ function decimalAdjust(type, value, exp) {
 module.exports.sortArray = sortArray;
 module.exports.sumMonths = sumMonths;
 module.exports.categorySumsYearly = categorySumsYearly;
+module.exports.categorySumsMonthly = categorySumsMonthly;
