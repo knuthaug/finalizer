@@ -51,18 +51,26 @@ describe("the summarizing library", function(){
             var array = [
                 {"date": "20140110", "in": 0, "out": 120, "description": "Rema"},
                 {"date": "20140101", "in": 0, "out": 400, "description": "ESSO SKÅRER"},
-                {"date": "20140101", "in": 0, "out": 400, "description": "shell SKÅRER"},
+                {"date": "20140101", "in": 0, "out": 400, "description": "fjord1"},
                 {"date": "20140120", "in": 0, "out": 320, "description": "LØRENSKOG KINO"},
                 {"date": "20140101", "in": 0, "out": 500, "description": "AB klipp"},
             ];
             
-            var categories = {"Matvarer": [/foo/i, /Rema/i], "Underholdning": [/kino/i], "Transport": [/esso|shell/i]};
+            var categories = {"Matvarer": { regex: [/foo/i, /Rema/i] }, 
+                              "Underholdning": { regex: [/kino/i] }, 
+                              "Transport": { regex: [/esso|fjord1/i], 
+                                           sub: {
+                                               "Bensin": { regex: [/esso/i] },
+                                               "Ferge": { regex: [/fjord1/] }
+                                           } } };
             
             var sums = sum.categorySumsYearly(array, categories);
-            assert.deepEqual(sums, { "Matvarer": {"value": 120, "percentage": 6.9}, 
-                                     "Underholdning": { "value": 320, "percentage": 18.39}, 
-                                     "Annet": {"value": 500, "percentage": 28.74}, 
-                                     "Transport": {"value": 800, "percentage": 45.98}});
+            assert.deepEqual(sums, { "Matvarer": {"value": 120, "percentage": 6.9, sub: {Annet: {value: 120, percentage: 100}}}, 
+                                     "Underholdning": { "value": 320, "percentage": 18.39,  sub: {Annet: {value: 320, percentage: 100}}}, 
+                                     "Annet": {"value": 500, "percentage": 28.74, sub: {Annet: {value: 500, percentage: 100}}}, 
+                                     "Transport": {"value": 800, "percentage": 45.98, "sub" : {
+                                         "Ferge": { "value": 400, "percentage": 50}, 
+                                                    "Bensin": { value: 400, percentage: 50}}}});
             done();
         });
     });
@@ -78,7 +86,13 @@ describe("the summarizing library", function(){
                 {"date": "20140101", "in": 0, "out": 500, "description": "AB klipp"},
             ];
             
-            var categories = {"Matvarer": [/foo/i, /Rema/i], "Underholdning": [/kino/i], "Transport": [/esso|shell/i]};
+            var categories = {"Matvarer": { regex: [/foo/i, /Rema/i] }, 
+                              "Underholdning": { regex: [/kino/i] }, 
+                              "Transport": { regex: [/esso|shell/i], 
+                                            sub: {
+                                               "Bensin": { regex: [/esso/i] },
+                                               "Ferge": { regex: [/fjord1/] }
+                                           } } };
             
             var sums = sum.categorySumsMonthly(array, categories);
             assert.deepEqual(sums, { "01" : { "Matvarer": {"value": 120, "percentage": 6.9}, 
