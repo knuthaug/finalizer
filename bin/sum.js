@@ -48,7 +48,11 @@ function processYear(year) {
     };
     
     year.forEach(function(element) {
-        months = sumMonths(months, element);
+        var month = element.date.substr(4,2);
+        if(!months[month]) {
+            months[month] = {};
+        }
+        months[month] = sumMonths(months[month], element, month);
     });
 
     console.log(months);
@@ -56,12 +60,12 @@ function processYear(year) {
 
 }
 
-function sumMonths(months, object) {
-    var month = object.date.substr(4,2);
+function sumMonths(existing, object, month) {
     //console.log(object)
-    months[month].in += object.in;
-    months[month].out += object.out;
-    return months;
+    var tmp = existing;
+    tmp.in += object.in;
+    tmp.out += object.out;
+    return tmp;
 }
 
 function categorySumsMonthly(entries, categories) {
