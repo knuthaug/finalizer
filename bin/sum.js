@@ -57,6 +57,7 @@ function processYear(year) {
 
     console.log(months);
     console.log(categorySumsYearly(year, categories));
+    console.log(categorySumsMonthly(year, categories));
 
 }
 
