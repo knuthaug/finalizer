@@ -4,10 +4,10 @@ process.env.NODE_ENV = 'test';
 var should  = require('should'),
     mocha   = require('mocha'),
     assert  = require('chai').assert,
-    sum     = require('../bin/sum.js');
+    sum     = require('../lib/sum.js');
 
 
-describe("the sum script", function(){
+describe("the summarizing library", function(){
 
     describe('sortArray', function(){
         it('should order array by date field', function(done){
