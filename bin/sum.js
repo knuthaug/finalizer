@@ -86,8 +86,7 @@ function categorySumsMonthly(entries, categories) {
     //calculate percentages
     Object.keys(sums).forEach(function(month){
         Object.keys(sums[month]).forEach(function(category) {
-            sums[month][category].percentage = round10(sums[month][category].value 
-                                                       / monthTotals[month] * 100, -2);
+            sums[month][category].percentage = round10(sums[month][category].value / monthTotals[month] * 100, -2);
         });
     });
 
@@ -146,7 +145,7 @@ function compare(a, b) {
 
 function round10(value, exp) {
     return decimalAdjust('round', value, exp);
-};
+}
 
 function decimalAdjust(type, value, exp) {
     // If the exp is undefined or zero...

@@ -28,14 +28,7 @@ describe("the sum script", function(){
 
     describe('sumMonths', function(){
         it('should sum values by month', function(done){
-                var months = {
-                    "01": { "in": 0, "out": 0}, "02": { "in": 0, "out": 0}, 
-                    "03": { "in": 0, "out": 0}, "04": { "in": 0, "out": 0}, 
-                    "05": { "in": 0, "out": 0}, "06": { "in": 0, "out": 0}, 
-                    "07": { "in": 0, "out": 0}, "08": { "in": 0, "out": 0}, 
-                    "09": { "in": 0, "out": 0}, "10": { "in": 0, "out": 0}, 
-                    "11": { "in": 0, "out": 0}, "12": { "in": 0, "out": 0}
-                };
+                var months = {"01": { in: 0, out: 0}};
             
             var array = [
                 {"date": "20140110", "in": 100.29, "out": 0},
@@ -44,10 +37,10 @@ describe("the sum script", function(){
                 {"date": "20140101", "in": 0, "out": 50},
             ];
             
-            months = sum.sumMonths(months, array[0]);
-            months = sum.sumMonths(months, array[1]);
-            months = sum.sumMonths(months, array[2]);
-            months = sum.sumMonths(months, array[3]);
+            months["01"] = sum.sumMonths(months["01"], array[0], "01");
+            months["01"] = sum.sumMonths(months["01"], array[1], "01");
+            months["01"] = sum.sumMonths(months["01"], array[2], "01");
+            months["01"] = sum.sumMonths(months["01"], array[3], "01");
             assert.deepEqual(months["01"], {"in": 1500.29, "out": 90 });
             done();
         });
