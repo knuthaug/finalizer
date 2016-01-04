@@ -38,31 +38,22 @@ parser.parseFile(file, processYear);
 
 
 function processYear(year) {
-    var months = {
-        "01": { "in": 0, "out": 0}, "02": { "in": 0, "out": 0}, 
-        "03": { "in": 0, "out": 0}, "04": { "in": 0, "out": 0}, 
-        "05": { "in": 0, "out": 0}, "06": { "in": 0, "out": 0}, 
-        "07": { "in": 0, "out": 0}, "08": { "in": 0, "out": 0}, 
-        "09": { "in": 0, "out": 0}, "10": { "in": 0, "out": 0}, 
-        "11": { "in": 0, "out": 0}, "12": { "in": 0, "out": 0}
-    };
+    var months = {};
     
     year.forEach(function(element) {
         var month = element.date.substr(4,2);
         if(!months[month]) {
-            months[month] = {};
+            months[month] = { in: 0, out: 0};
         }
         months[month] = sumMonths(months[month], element, month);
     });
 
     console.log(months);
     console.log(categorySumsYearly(year, categories));
-    console.log(categorySumsMonthly(year, categories));
-
+    //console.log(categorySumsMonthly(year, categories));
 }
 
 function sumMonths(existing, object, month) {
-    //console.log(object)
     var tmp = existing;
     tmp.in += object.in;
     tmp.out += object.out;
