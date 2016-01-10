@@ -26,6 +26,7 @@
       "handlebars": "^3.0.0",
       "bunyan": "1.5.1",
       "mongoose": "4.3.4",
-      "line-reader": "0.3.0"
+      "line-reader": "0.3.0",
+      "express-handlebars": "2.0.1"
   }
 }
