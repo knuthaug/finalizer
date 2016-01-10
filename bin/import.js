@@ -1,3 +1,4 @@
+/*jshint node:true, strict:true */
 "use strict";
 
 var parser = require('../lib/parser.js'),
