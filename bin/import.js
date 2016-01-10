@@ -10,13 +10,15 @@ var parser = require('../lib/parser.js'),
 parser.parseFile(file, storeYear);
 
 function storeYear(yearData) {
+    var completeYear = sum.processYear(yearData);
     var db = new Db('localhost');
-    //store sums also
-    db.storeYear(year, account, yearData).then(function(reply){
+
+    db.storeYear(year, account, completeYear).then(function(reply){
         console.log("stored data to database");
         process.exit();
     }).catch(function(error){
         console.error("Error when saving data to database:" + error);
+        process.exit();
     });
 }
 
