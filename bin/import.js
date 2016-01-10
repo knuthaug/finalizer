@@ -11,6 +11,7 @@ parser.parseFile(file, storeYear);
 
 function storeYear(yearData) {
     var db = new Db('localhost');
+    //store sums also
     db.storeYear(year, account, yearData).then(function(reply){
         console.log("stored data to database");
         process.exit();
